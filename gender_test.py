@@ -1,6 +1,8 @@
 #!/bin/env python
 import codecs
 import random
+import pickle
+import os
 
 class wordlist(list):
     def __init__(self,wordfile='nouns.txt'):
@@ -37,3 +39,12 @@ def run_n_tests(n,wordlist):
     while run<n:
         run+=1
         guess_gender(get_random_word(wordlist))
+
+
+class WordTest(object):
+    def __init__(self,results_file=None):
+        if os.path.exists(results_file):
+            self.results=pickle.load(results_file,'rb')
+        else:
+            self.results={'T':[],'F':[]} #dictionary holding the correct and false guesses
+
