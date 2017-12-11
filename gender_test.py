@@ -51,9 +51,10 @@ class WordTest(object):
             self.wordlist=wordlist(wordfile=word_list)
         elif type(word_list) == wordlist:
             self.wordlist=wordlist
+        self.results_file=results_file
 
         if os.path.exists(results_file):
-            self.results=pickle.load(results_file,'rb')
+            self.results=pickle.load(open(results_file,'rb'))
         else:
             self.results={'T':[],'F':[]} #dictionary holding the correct and false guesses
 
@@ -67,3 +68,11 @@ class WordTest(object):
             else:
                 self.results['F'].append(word)
 
+    def run_percent_failed(self,perc_failed=0.5):
+        """Samples the results and gives a sample 
+        of failed previous words. Updates results
+        """
+        pass
+
+    def store_results(self):
+        pickle.dump(self.results,open(self.results_file,'wb'))
