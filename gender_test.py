@@ -31,8 +31,10 @@ def guess_gender(word):
         guess=raw_input("is it m or f?").lower()
     if guess==word['gender']:
         print("\033[42mCorrect!\033[0m "+word['word']+ ' is '+['\033[44mMasculine\033[0m','\033[45mFeminine\033[0m'][guess=='f'])
+        return True
     else:
         print("\033[41mWrong!\033[0m "+word['word']+ ' is '+['\033[44mMasculine\033[0m','\033[45mFeminine\033[0m'][guess=='m'])
+        return False
 
 def run_n_tests(n,wordlist):
     run=0
@@ -42,9 +44,26 @@ def run_n_tests(n,wordlist):
 
 
 class WordTest(object):
-    def __init__(self,results_file=None):
+    def __init__(self,word_list=None,results_file='results'):
+        if not word_list:
+            self.wordlist=wordlist()
+        elif type(word_list)==str and os.path.exists(wordlist):
+            self.wordlist=wordlist(wordfile=word_list)
+        elif type(word_list) == wordlist:
+            self.wordlist=wordlist
+
         if os.path.exists(results_file):
             self.results=pickle.load(results_file,'rb')
         else:
             self.results={'T':[],'F':[]} #dictionary holding the correct and false guesses
+
+    def run_random_test(self,num_words=10):
+        run=0
+        while run<num_words:
+            run+=1
+            word=get_random_word(self.wordlist)
+            if(guess_gender(word)):
+                self.results['T'].append(word)
+            else:
+                self.results['F'].append(word)
 
