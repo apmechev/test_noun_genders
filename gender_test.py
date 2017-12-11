@@ -5,7 +5,7 @@ import pickle
 import os
 
 class wordlist(list):
-    def __init__(self,wordfile='nouns.txt'):
+    def __init__(self,wordfile='nouns_from_wiki.txt'):
         with codecs.open(wordfile,'rb') as wf:
             for line in wf:
                 self.append(line)
@@ -47,7 +47,7 @@ class WordTest(object):
     def __init__(self,word_list=None,results_file='results'):
         if not word_list:
             self.wordlist=wordlist()
-        elif type(word_list)==str and os.path.exists(wordlist):
+        elif type(word_list)==str and os.path.exists(word_list):
             self.wordlist=wordlist(wordfile=word_list)
         elif type(word_list) == wordlist:
             self.wordlist=wordlist
