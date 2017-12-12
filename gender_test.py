@@ -76,3 +76,18 @@ class WordTest(object):
 
     def store_results(self):
         pickle.dump(self.results,open(self.results_file,'wb'))
+
+class RandomWordTest(WordTest):
+    def __init__(self,word_list=None,results_file='results'):
+         super(RandomWordTest, self).__init__(
+                 word_list=word_list,
+                 results_file=results_file)
+
+    def __enter__(self):
+        pass
+
+
+    def __exit__(self,type, value, traceback):
+        self.store_results()
+
+
