@@ -90,4 +90,12 @@ class RandomWordTest(WordTest):
     def __exit__(self,type, value, traceback):
         self.store_results()
 
+class PercentWrongTest(WordTest):
+    def __init__(self,word_list=None,results_file='results'):
+        super(RandomWordTest, self).__init__(
+                 word_list=word_list,
+                 results_file=results_file)
+
+    def run_random_test(self,num_words=10,percent_wrong=0.5):
+        perc_wrong_wordlist=self.results['F']
 
