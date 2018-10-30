@@ -3,22 +3,38 @@ import codecs
 import random
 import pickle
 import os
+import pdb
 
 class wordlist(list):
     def __init__(self,wordfile='nouns_from_wiki.txt'):
         with codecs.open(wordfile,'rb') as wf:
             for line in wf:
-                self.append(line)
+#                pdb.set_trace()
+                if line[0]!='#':
+                    self.append(line.split('\t'))
 
     def append(self,item):
-        if '{m}' in item:
-            super(wordlist,self).append({'word':item.split()[0],
-                                        'gender':'m',
-                                        'definition':" ".join(item[2:-1].split())})
-        if '{f}' in item:
-            super(wordlist,self).append({'word':item.split()[0],
-                                        'gender':'f',
-                                        'definition':" ".join(item[2:-1].split())})
+#        pdb.set_trace()
+        result = {}
+        result['word'] = item[1]
+        result['frequency'] = float(item[17])
+        result['gender'] = self.get_gender(item[3])
+        result['invariant'] = self.get_invariant(item[3])
+        result['notes'] = item[7]
+        super(wordlist,self).append(result)
+
+    @staticmethod
+    def get_gender(item, gender_dict={'mas':'M', 'fem':"F"}):
+        for key in list(gender_dict.keys()):
+            if key in item:
+                return gender_dict[key]
+
+    @staticmethod
+    def get_invariant(item):
+        if 'inv' in item:
+            return True
+        return False
+
 
 
 def get_random_word(wordlist):
