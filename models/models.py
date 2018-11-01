@@ -1,4 +1,6 @@
-from sqlalchemy import Boolean, DateTime, Column, Integer, String, ForeignKey, Float
+from sqlalchemy import Boolean, DateTime, Column, Integer, String, ForeignKey, Float, Enum
+import enum
+
 
 class Tag(Model):
     __tablename__ = 'tag'
@@ -17,8 +19,15 @@ class Word(Model)
     word = Column('word', String())
     gender = Column('gender', Integer() ForeignKey('gender.id'))
 
-class Genders(Model):
+class Gender(Model):
     __tablename__ = 'gender'
     id = Column(Integer(), primary_key=True)
     gender = Column('gender', String())
 
+class FrGendersEnum(enum.Enum):
+    MALE = "masculin"
+    FEMALE = "feminin"
+
+class FrenchGender(Gender):
+    __tablename__ = 'gender_fr'
+    gender = Column(Enum(FrGenderEnum))
